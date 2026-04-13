@@ -8,7 +8,8 @@ function loadUsers() {
     .then(data => {
         users = data.data || [];
         displayUsers(users);
-    });
+    })
+    .catch(err => console.log("Error loading users:", err));
 }
 
 // DISPLAY USERS
@@ -21,7 +22,6 @@ function displayUsers(list) {
             <tr>
                 <td>${user.name}</td>
                 <td>${user.email}</td>
-                <td class="${user.role}">${user.role}</td>
                 <td class="active-status">Active</td>
                 <td>
                     <button onclick="deleteUser('${user._id}')">Delete</button>
@@ -33,12 +33,24 @@ function displayUsers(list) {
 
 // ADD USER
 function addUser() {
-    const data = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value,
-        role: document.getElementById("role").value
-    };
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    // Validation
+    if (!name || !email || !password) {
+        alert("All fields are required");
+        return;
+    }
+
+    // Password validation (same as schema)
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+        alert("Password must be strong (8+ chars, A-Z, a-z, number & special char)");
+        return;
+    }
+
+    const data = { name, email, password };
 
     fetch(API + "/register", {
         method: "POST",
@@ -51,21 +63,30 @@ function addUser() {
     .then(() => {
         closeForm();
         loadUsers();
-    });
+    })
+    .catch(err => console.log("Error adding user:", err));
 }
 
 // DELETE USER
 function deleteUser(id) {
+    if (!confirm("Delete this user?")) return;
+
     fetch(API + "/users/" + id, {
         method: "DELETE"
     })
-    .then(() => loadUsers());
+    .then(() => loadUsers())
+    .catch(err => console.log("Delete error:", err));
 }
 
-// SEARCH
+// SEARCH USER
 function searchUser() {
     const value = document.getElementById("search").value.toLowerCase();
-    const filtered = users.filter(u => u.name.toLowerCase().includes(value));
+
+    const filtered = users.filter(u =>
+        u.name.toLowerCase().includes(value) ||
+        u.email.toLowerCase().includes(value)
+    );
+
     displayUsers(filtered);
 }
 
