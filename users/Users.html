@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>User Management</title>
-    <link rel="stylesheet" href="./Users.css">
+    <link rel="stylesheet" href="Users.css">
 </head>
 <body>
 
@@ -16,14 +16,10 @@
             <li>Products</li>
             <li>Inventory</li>
             <li>Sales</li>
+            <li>Reports</li>
             <li>Invoices</li>
             <li class="active">Users</li>
-        <br><br><br><br><br><br><br><br><br>
         </ul>
-        <ul class="bottom-menu">
-        <li> Settings</li>
-        <li> Logout</li>
-    </ul>
     </div>
 
     <!-- Main Content -->
@@ -41,11 +37,9 @@
         <table>
             <thead>
                 <tr>
-                    <th>USER</th>
+                    <th>NAME</th>
                     <th>EMAIL</th>
-                    <th>ROLE</th>
-                    <th>STATUS</th>
-                    <th>ACTIONS</th>
+                    <th>PASSWORD</th>
                 </tr>
             </thead>
             <tbody id="userTable"></tbody>
@@ -74,6 +68,6 @@
     </div>
 </div>
 
-<script src="./Users.js"></script>
+<script src="/Users.js"></script>
 </body>
 </html>
