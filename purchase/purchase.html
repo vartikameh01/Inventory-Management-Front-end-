@@ -1,0 +1,73 @@
+=<!DOCTYPE html>
+<html>
+<head>
+    <title>Purchases</title>
+    <link rel="stylesheet" href="purchase.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>InvenTrack</h2>
+        <ul>
+            <li>Dashboard</li>
+            <li>Products</li>
+            <li>Inventory</li>
+            <li>Sales</li>
+            <li class="active">Purchases</li>
+            <li>Users</li>
+        </ul>
+
+        <ul class="bottom-menu">
+            <li>Settings</li>
+            <li>Logout</li>
+        </ul>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+
+        <div class="header">
+            <h1>Purchases</h1>
+            <button onclick="openForm()">+ Add Purchase</button>
+        </div>
+
+        <!-- Search -->
+        <input type="text" id="search" placeholder="Search purchases..." onkeyup="searchPurchase()">
+
+        <!-- Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>DATE</th>
+                    <th>PRODUCT</th>
+                    <th>QUANTITY</th>
+                    <th>PRICE</th>
+                    <th>SUPPLIER</th>
+                </tr>
+            </thead>
+            <tbody id="purchaseTable"></tbody>
+        </table>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+    <div class="form">
+        <h2>Add Purchase</h2>
+
+        <input type="text" id="product" placeholder="Product ID">
+        <input type="number" id="quantity" placeholder="Quantity">
+        <input type="number" id="price" placeholder="Price">
+        <input type="text" id="supplier" placeholder="Supplier ID">
+        <button type="button" onclick="addPurchase()">Save</button>
+       <button type="button" onclick="closeForm()">Cancel</button>
+    </div>
+</div>
+
+<script src="purchase.js"></script>
+</body>
+</html>

@@ -1,11 +1,14 @@
+alert("Connected")
+
 const API = "http://localhost:8080";
 let users = [];
 
 // LOAD USERS
-function loadUsers() {
-    fetch(API + "/users")
+async function loadUsers() {
+    await fetch(API + "/register")
     .then(res => res.json())
     .then(data => {
+        console.log(data);
         users = data.data || [];
         displayUsers(users);
     })
@@ -32,7 +35,9 @@ function displayUsers(list) {
 }
 
 // ADD USER
-function addUser() {
+async function addUser() {
+
+    // alert("Hi")
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
@@ -52,7 +57,7 @@ function addUser() {
 
     const data = { name, email, password };
 
-    fetch(API + "/register", {
+   await fetch(API + "/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

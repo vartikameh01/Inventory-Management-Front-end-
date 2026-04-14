@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings</title>
+
+<link rel="stylesheet" href="setting.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>InvenTrack</h2>
+
+    <ul>
+        <li>Dashboard</li>
+        <li>Products</li>
+        <li>Sales</li>
+        <li>Purchases</li>
+        <li>Users</li>
+        
+    </ul>
+
+    <ul class="bottom-menu">
+        <li class="active">Settings</li>
+        <li>Logout</li>
+    </ul>
+</div>
+
+<!-- Main -->
+<div class="main">
+
+    <div class="header">
+        <h1>Settings</h1>
+    </div>
+
+    <p>Manage your account settings</p>
+
+    <!-- Profile -->
+    <div class="section">
+        <h3>Profile Settings</h3>
+
+        <input id="name" placeholder="Name">
+        <input id="email" placeholder="Email">
+
+        <button onclick="saveProfile()">Save Profile</button>
+    </div>
+
+    <!-- Password -->
+    <div class="section">
+        <h3>Security</h3>
+
+        <input type="password" id="current" placeholder="Current Password">
+        <input type="password" id="newPass" placeholder="New Password">
+
+        <button onclick="updatePassword()">Update Password</button>
+    </div>
+
+    <!-- Notifications -->
+    <div class="section">
+        <h3>Notifications</h3>
+
+        <div class="row">
+            <span>Email Notifications</span>
+            <label class="switch">
+                <input type="checkbox" id="emailNotify">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="row">
+            <span>Low Stock Alerts</span>
+            <label class="switch">
+                <input type="checkbox" id="stockNotify">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <button onclick="saveNotifications()">Save Preferences</button>
+    </div>
+
+    <!-- General -->
+    <div class="section">
+        <h3>General</h3>
+
+        <select id="language">
+            <option>English</option>
+            <option>Hindi</option>
+        </select>
+
+        <div class="row">
+            <span>Dark Mode</span>
+            <label class="switch">
+                <input type="checkbox" id="darkMode">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <button onclick="saveGeneral()">Save Settings</button>
+    </div>
+
+</div>
+
+</div>
+
+<script src="setting.js"></script>
+
+</body>
+</html>
