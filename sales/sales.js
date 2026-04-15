@@ -1,12 +1,12 @@
-const API = "http://localhost:8080";
+const API = "http://localhost:8080"; // change after deploy
 const token = localStorage.getItem("token");
 
 let sales = [];
 
-// 🔐 LOGIN CHECK (NO REDIRECT LOOP)
+
+// LOGIN CHECK
 if (!token) {
     alert("Login first");
-    // REMOVE redirect to avoid going back
 }
 
 
@@ -65,7 +65,7 @@ async function addSale() {
 
     try {
 
-        const res = await fetch(API + "/sales", {
+        await fetch(API + "/sales", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -74,12 +74,10 @@ async function addSale() {
             body: JSON.stringify({ customer, amount, status })
         });
 
-        const data = await res.json();
-
-        alert("Sale added successfully ✅");
+        alert("Sale added ✅");
 
         closeForm();
-        loadSales();   // reload table only (NO PAGE REDIRECT)
+        loadSales();
 
     } catch (err) {
         console.log(err);
@@ -121,6 +119,7 @@ function closeForm() {
     document.getElementById("modal").style.display = "none";
 }
 
+
 // LOGOUT
 function logout() {
     localStorage.removeItem("token");
@@ -128,10 +127,11 @@ function logout() {
 }
 
 
-// 👇 ADD HERE (VERY LAST)
+// 🔥 MAKE BUTTONS WORK (IMPORTANT)
 window.openForm = openForm;
 window.closeForm = closeForm;
 window.addSale = addSale;
+window.deleteSale = deleteSale;
 
 
 // INIT
