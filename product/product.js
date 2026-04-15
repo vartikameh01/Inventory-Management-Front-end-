@@ -80,7 +80,7 @@ async function addProduct() {
             return;
         }
 
-        alert("Product Added ✅");
+        alert("Product Added");
 
         closeForm();
         loadProducts();
