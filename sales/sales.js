@@ -127,7 +127,9 @@ function logout() {
     localStorage.removeItem("token");
     window.location.href = "../index.html";
 }
-
+window.openForm = openForm;
+window.closeForm = closeForm;
+window.addSale = addSale;
 
 // INIT
 loadSales();
