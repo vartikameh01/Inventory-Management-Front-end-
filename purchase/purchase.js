@@ -61,13 +61,14 @@ async function addPurchase() {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + localStorage.getItem("token") 
             },
-             body: JSON.stringify({ product, quantity, price })
+             body: JSON.stringify(data)
         });
 
-        alert("Purchase Added");
+        const result = await res.json();
+        console.log("Added purchase:", result);
+
         closeForm();
         await loadPurchases();  
-
     } catch (err) {
         console.log("Error adding purchase:", err);
     }
