@@ -1,22 +1,29 @@
-const API = "http://localhost:8080";
-alert("js loaded")
+const API = "http://localhost:8080"; // change after deploy
+const token = localStorage.getItem("token");
+
 let sales = [];
 
 
+//  LOGIN CHECK
+if (!token) {
+    alert("Please login first");
+    window.location.href = "index.html";
+}
+
+
 // LOAD SALES
-async function loadSales() {
-    try {
-        const res = await fetch(API + "/sales");
-        const data = await res.json();
-
-        console.log("Sales:", data);
-
+function loadSales() {
+    fetch(API + "/sale", {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
         sales = data.data || [];
         displaySales(sales);
-
-    } catch (err) {
-        console.log("Error loading sales:", err);
-    }
+    })
+    .catch(err => console.log(err));
 }
 
 
@@ -25,17 +32,12 @@ function displaySales(list) {
     const table = document.getElementById("salesTable");
     table.innerHTML = "";
 
-    list.forEach(item => {
+    list.forEach(s => {
         table.innerHTML += `
             <tr>
-                <td>#INV-${item._id.slice(-4)}</td>
-                <td>${item.date ? new Date(item.date).toDateString() : "-"}</td>
-                <td>${item.product?.name || "Product"}</td>
-                <td>${item.quantity}</td>
-                <td>₹${item.price}</td>
-                <td>
-                    <button onclick="deleteSale('${item._id}')">Delete</button>
-                </td>
+                <td>${s.customer}</td>
+                <td>${s.status}</td>
+                <td>₹${s.amount}</td>
             </tr>
         `;
     });
@@ -43,63 +45,39 @@ function displaySales(list) {
 
 
 // ADD SALE
-async function addSale() {
-    alert("clicked")
+function addSale() {
 
-    const data = {
-        product: document.getElementById("product").value,
-        quantity: document.getElementById("quantity").value,
-        price: document.getElementById("price").value
-    };
+    const customer = document.getElementById("customer").value;
+    const amount = document.getElementById("amount").value;
+    const status = document.getElementById("status").value;
 
-    console.log("Sending sale:", data);
+    if (!customer || !amount) {
+        alert("Fill all fields");
+        return;
+    }
 
-    try {
-
-        const res = await fetch(API + "/sales", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + localStorage.getItem("token") 
-            },
-            body: JSON.stringify(data)
-        });
-
-        const result = await res.json();
-        console.log("Added sale:", result);
-
+    fetch(API + "/sale", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({ customer, amount, status })
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert("Sale added");
         closeForm();
-        await loadSales(); 
-
-    } catch (err) {
-        console.log("Error adding sale:", err);
-    }
+        loadSales();
+    })
+    .catch(err => {
+        console.log(err);
+        alert("Error adding sale");
+    });
 }
 
 
-// DELETE SALE
-async function deleteSale(id) {
-
-    if (!confirm("Delete this sale?")) return;
-
-    try {
-
-        await fetch(API + "/sales/" + id, {
-            method: "DELETE",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-        });
-
-        await loadSales();
-
-    } catch (err) {
-        console.log("Delete error:", err);
-    }
-}
-
-
-// MODAL
+// MODAL CONTROL
 function openForm() {
     document.getElementById("modal").style.display = "block";
 }
