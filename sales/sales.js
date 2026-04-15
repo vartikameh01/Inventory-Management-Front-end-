@@ -121,15 +121,18 @@ function closeForm() {
     document.getElementById("modal").style.display = "none";
 }
 
-
 // LOGOUT
 function logout() {
     localStorage.removeItem("token");
     window.location.href = "../index.html";
 }
+
+
+// 👇 ADD HERE (VERY LAST)
 window.openForm = openForm;
 window.closeForm = closeForm;
 window.addSale = addSale;
+
 
 // INIT
 loadSales();
