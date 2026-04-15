@@ -1,21 +1,33 @@
-const API = "http://localhost:8080";
-alert("js loaded")
+const API = "http://localhost:8080"; // change after deploy
+const token = localStorage.getItem("token");
+
 let sales = [];
+
+
+// LOGIN CHECK
+if (!token) {
+    alert("Login first");
+    window.location.href = "../index.html";
+}
 
 
 // LOAD SALES
 async function loadSales() {
     try {
-        const res = await fetch(API + "/sales");
+
+        const res = await fetch(API + "/sales", {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
         const data = await res.json();
-
-        console.log("Sales:", data);
-
         sales = data.data || [];
+
         displaySales(sales);
 
     } catch (err) {
-        console.log("Error loading sales:", err);
+        console.log(err);
     }
 }
 
@@ -28,11 +40,9 @@ function displaySales(list) {
     list.forEach(item => {
         table.innerHTML += `
             <tr>
-                <td>#INV-${item._id.slice(-4)}</td>
-                <td>${item.date ? new Date(item.date).toDateString() : "-"}</td>
-                <td>${item.product?.name || "Product"}</td>
-                <td>${item.quantity}</td>
-                <td>₹${item.price}</td>
+                <td>${item.customer}</td>
+                <td>${item.status}</td>
+                <td>₹${item.amount}</td>
                 <td>
                     <button onclick="deleteSale('${item._id}')">Delete</button>
                 </td>
@@ -44,15 +54,15 @@ function displaySales(list) {
 
 // ADD SALE
 async function addSale() {
-    alert("clicked")
 
-    const data = {
-        product: document.getElementById("product").value,
-        quantity: document.getElementById("quantity").value,
-        price: document.getElementById("price").value
-    };
+    const customer = document.getElementById("customer").value;
+    const amount = document.getElementById("amount").value;
+    const status = document.getElementById("status").value;
 
-    console.log("Sending sale:", data);
+    if (!customer || !amount) {
+        alert("Fill all fields");
+        return;
+    }
 
     try {
 
@@ -60,19 +70,21 @@ async function addSale() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + localStorage.getItem("token") 
+                "Authorization": "Bearer " + token
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({ customer, amount, status })
         });
 
-        const result = await res.json();
-        console.log("Added sale:", result);
+        const data = await res.json();
+
+        alert("Sale added");
 
         closeForm();
-        await loadSales(); 
+        loadSales();
 
     } catch (err) {
-        console.log("Error adding sale:", err);
+        console.log(err);
+        alert("Error");
     }
 }
 
@@ -80,21 +92,21 @@ async function addSale() {
 // DELETE SALE
 async function deleteSale(id) {
 
-    if (!confirm("Delete this sale?")) return;
+    if (!confirm("Delete?")) return;
 
     try {
 
         await fetch(API + "/sales/" + id, {
             method: "DELETE",
             headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token")
+                "Authorization": "Bearer " + token
             }
         });
 
-        await loadSales();
+        loadSales();
 
     } catch (err) {
-        console.log("Delete error:", err);
+        console.log(err);
     }
 }
 
@@ -106,6 +118,13 @@ function openForm() {
 
 function closeForm() {
     document.getElementById("modal").style.display = "none";
+}
+
+
+// LOGOUT
+function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "../index.html";
 }
 
 
