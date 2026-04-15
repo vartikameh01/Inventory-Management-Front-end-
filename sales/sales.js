@@ -4,7 +4,7 @@ const token = localStorage.getItem("token");
 let sales = [];
 
 
-//  LOGIN CHECK
+// 🔐 LOGIN CHECK
 if (!token) {
     alert("Please login first");
     window.location.href = "index.html";
@@ -82,7 +82,6 @@ function openForm() {
     document.getElementById("modal").style.display = "block";
 }
 
-// CLOSE MODAL
 function closeForm() {
     document.getElementById("modal").style.display = "none";
 }
