@@ -45,7 +45,7 @@ function displayProducts(list) {
 
 // ADD PRODUCT
 async function addProduct() {
-    alert("clicked")
+    alert("clicked");
 
     const data = {
         name: document.getElementById("name").value,
@@ -67,22 +67,29 @@ async function addProduct() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + localStorage.getItem("token") 
+                "Authorization": "Bearer " + localStorage.getItem("token")
             },
             body: JSON.stringify(data)
         });
 
         const result = await res.json();
-        console.log("Added:", result);
+        console.log("Response:", result);
+
+        if (!res.ok) {
+            alert(result.message || "Error saving");
+            return;
+        }
+
+        alert("Product Added ✅");
 
         closeForm();
         loadProducts();
 
     } catch (err) {
-        console.log("Error adding product:", err);
+        console.log("Error:", err);
+        alert("Server error");
     }
 }
-
 
 // DELETE PRODUCT
 async function deleteProduct(id) {
