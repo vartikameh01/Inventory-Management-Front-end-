@@ -14,6 +14,7 @@
         <ul>
             <li>Dashboard</li>
             <li>Products</li>
+            <li>Inventory</li>
             <li class="active">Sales</li>
             <li>Purchases</li>
             <li>Users</li>
@@ -45,9 +46,9 @@
         <table>
             <thead>
                 <tr>
-                   <th>Customer</th>
-                   <th>Status</th>
-                   <th>Amount</th>
+                    <th>supplier</th>
+                    <th>category</th>
+                    <th>purchase</th>
                     
                 </tr>
             </thead>
@@ -70,8 +71,7 @@
             <option value="pending">Pending</option>
         </select>
 
-        <button type="button" onclick="+ New Sale()">Save</button>
-        <button type="button" onclick="Sales()">Save</button>
+        <button type="button" onclick="addSale()">Save</button>
         <button type="button" onclick="closeForm()">Cancel</button>
     </div>
 </div>
