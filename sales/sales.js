@@ -1,13 +1,12 @@
-const API = "http://localhost:8080"; // change after deploy
+const API = "http://localhost:8080";
 const token = localStorage.getItem("token");
 
 let sales = [];
 
-
-// LOGIN CHECK
+// 🔐 LOGIN CHECK (NO REDIRECT LOOP)
 if (!token) {
     alert("Login first");
-    window.location.href = "../index.html";
+    // REMOVE redirect to avoid going back
 }
 
 
@@ -41,7 +40,7 @@ function displaySales(list) {
         table.innerHTML += `
             <tr>
                 <td>${item.customer}</td>
-                <td>${item.status}</td>
+                <td class="${item.status}">${item.status}</td>
                 <td>₹${item.amount}</td>
                 <td>
                     <button onclick="deleteSale('${item._id}')">Delete</button>
@@ -77,14 +76,14 @@ async function addSale() {
 
         const data = await res.json();
 
-        alert("Sale added");
+        alert("Sale added successfully ✅");
 
         closeForm();
-        loadSales();
+        loadSales();   // reload table only (NO PAGE REDIRECT)
 
     } catch (err) {
         console.log(err);
-        alert("Error");
+        alert("Error adding sale");
     }
 }
 
@@ -102,6 +101,8 @@ async function deleteSale(id) {
                 "Authorization": "Bearer " + token
             }
         });
+
+        alert("Deleted ✅");
 
         loadSales();
 
