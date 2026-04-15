@@ -5,109 +5,143 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Settings</title>
 
-<link rel="stylesheet" href="setting.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="./setting.css">
 </head>
 
 <body>
 
-<div class="container">
-
 <!-- Sidebar -->
 <div class="sidebar">
-    <h2>InvenTrack</h2>
+<div class="logo"> InvenTrack</div>
 
-    <ul>
-        <li>Dashboard</li>
-        <li>Products</li>
-        <li>Sales</li>
-        <li>Purchases</li>
-        <li>Users</li>
-        
-    </ul>
+<div class="menu">
+<a href="#">Dashboard</a>
+<a href="#">Products</a>
+<a href="#">Sales</a>
+<a href="#">Purchases</a>
+<a href="#">Users</a>
+<a href="#" class="active">Settings</a>
 
-    <ul class="bottom-menu">
-        <li class="active">Settings</li>
-        <li>Logout</li>
-    </ul>
+<br><br><br>
+
+<a href="#">Logout</a>
+</div>
+</div>
+
+<!-- Topbar -->
+<div class="topbar">
+
+<div class="search-box">
+<i class="fa fa-search"></i>
+<input type="text" placeholder="Search...">
+</div>
+
+<div class="top-icons">
+<i class="fa-regular fa-bell"></i>
+
+<div class="profile">
+<div class="avatar">JD</div>
+<div class="profile-info">
+<span>John Doe</span>
+<span>Admin</span>
+</div>
+</div>
+
+</div>
+
 </div>
 
 <!-- Main -->
 <div class="main">
 
-    <div class="header">
-        <h1>Settings</h1>
-    </div>
+<h2>Settings</h2>
+<p>Manage your account settings and preferences</p>
 
-    <p>Manage your account settings</p>
+<div class="grid">
 
-    <!-- Profile -->
-    <div class="section">
-        <h3>Profile Settings</h3>
+<!-- Profile -->
+<div class="card">
+<h3>Profile Settings</h3>
 
-        <input id="name" placeholder="Name">
-        <input id="email" placeholder="Email">
+<input id="name" value="John Doe">
+<input id="email" value="john@example.com">
+<input id="phone" value="+91 9999999999">
 
-        <button onclick="saveProfile()">Save Profile</button>
-    </div>
+<button class="btn" onclick="saveProfile()">Save Profile</button>
+</div>
 
-    <!-- Password -->
-    <div class="section">
-        <h3>Security</h3>
+<!-- Security -->
+<div class="card">
+<h3>Security Settings</h3>
 
-        <input type="password" id="current" placeholder="Current Password">
-        <input type="password" id="newPass" placeholder="New Password">
+<input type="password" id="currentPass" placeholder="Current Password">
+<input type="password" id="newPass" placeholder="New Password">
+<input type="password" id="confirmPass" placeholder="Confirm Password">
 
-        <button onclick="updatePassword()">Update Password</button>
-    </div>
+<button class="btn" onclick="updatePassword()">Update Password</button>
+</div>
 
-    <!-- Notifications -->
-    <div class="section">
-        <h3>Notifications</h3>
+<!-- Notifications -->
+<div class="card">
+<h3>Notification Settings</h3>
 
-        <div class="row">
-            <span>Email Notifications</span>
-            <label class="switch">
-                <input type="checkbox" id="emailNotify">
-                <span class="slider"></span>
-            </label>
-        </div>
+<div class="row">
+<span>Email Notifications</span>
+<label class="switch">
+<input type="checkbox" id="emailNotify" checked>
+<span class="slider"></span>
+</label>
+</div>
 
-        <div class="row">
-            <span>Low Stock Alerts</span>
-            <label class="switch">
-                <input type="checkbox" id="stockNotify">
-                <span class="slider"></span>
-            </label>
-        </div>
+<div class="row">
+<span>Push Notifications</span>
+<label class="switch">
+<input type="checkbox" id="pushNotify">
+<span class="slider"></span>
+</label>
+</div>
 
-        <button onclick="saveNotifications()">Save Preferences</button>
-    </div>
+<div class="row">
+<span>Low Stock Alerts</span>
+<label class="switch">
+<input type="checkbox" id="stockAlert" checked>
+<span class="slider"></span>
+</label>
+</div>
 
-    <!-- General -->
-    <div class="section">
-        <h3>General</h3>
+<button class="btn" onclick="saveNotifications()">Save Preferences</button>
+</div>
 
-        <select id="language">
-            <option>English</option>
-            <option>Hindi</option>
-        </select>
+<!-- General -->
+<div class="card">
+<h3>General Settings</h3>
 
-        <div class="row">
-            <span>Dark Mode</span>
-            <label class="switch">
-                <input type="checkbox" id="darkMode">
-                <span class="slider"></span>
-            </label>
-        </div>
+<select id="language">
+<option>English</option>
+<option>Hindi</option>
+</select>
 
-        <button onclick="saveGeneral()">Save Settings</button>
-    </div>
+<select id="currency">
+<option>USD</option>
+<option>INR</option>
+</select>
 
+<div class="row">
+<span>Dark Mode</span>
+<label class="switch">
+<input type="checkbox" id="darkMode">
+<span class="slider"></span>
+</label>
+</div>
+
+<button class="btn" onclick="saveGeneral()">Save Settings</button>
 </div>
 
 </div>
 
-<script src="setting.js"></script>
+</div>
 
+<script src="./setting.js"></script>
 </body>
 </html>
