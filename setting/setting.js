@@ -2,16 +2,9 @@ const API = "http://localhost:8080";
 const token = localStorage.getItem("token");
 
 
-//  LOGIN CHECK
-if (!token) {
-    alert("Please login first");
-    window.location.href = "index.html";
-}
-
-
-// LOAD PROFILE
-async function loadProfile() {
-    try {
+// LOAD PROFILE DATA
+async function loadProfile(){
+    try{
 
         const res = await fetch(API + "/user/profile", {
             headers: {
@@ -22,26 +15,28 @@ async function loadProfile() {
         const data = await res.json();
         const user = data.data;
 
-        document.getElementById("name").value = user.name || "";
-        document.getElementById("email").value = user.email || "";
+        document.getElementById("name").value = user.name;
+        document.getElementById("email").value = user.email;
+        document.getElementById("phone").value = user.phone || "";
 
-    } catch (err) {
-        console.log(err);
+    }catch(err){
+        console.log("Load profile error:", err);
     }
 }
 
 
 // SAVE PROFILE
-async function saveProfile() {
+async function saveProfile(){
 
     const data = {
         name: document.getElementById("name").value,
-        email: document.getElementById("email").value
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value
     };
 
-    try {
+    try{
 
-        await fetch(API + "/user/profile", {
+        const res = await fetch(API + "/user/profile", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -50,32 +45,28 @@ async function saveProfile() {
             body: JSON.stringify(data)
         });
 
-        showMessage("Profile updated", "success");
+        await res.json();
+        alert("Profile Updated");
 
-    } catch (err) {
-        showMessage("Error updating profile", "error");
+    }catch(err){
+        console.log("Save profile error:", err);
     }
 }
 
 
 // UPDATE PASSWORD
-async function updatePassword() {
+async function updatePassword(){
 
-    const currentPassword = document.getElementById("current").value;
+    const currentPassword = document.getElementById("currentPass").value;
     const newPassword = document.getElementById("newPass").value;
     const confirmPassword = document.getElementById("confirmPass").value;
 
-    if (!currentPassword || !newPassword || !confirmPassword) {
-        showMessage("Fill all fields", "error");
+    if(newPassword !== confirmPassword){
+        alert("Passwords do not match");
         return;
     }
 
-    if (newPassword !== confirmPassword) {
-        showMessage("Passwords do not match", "error");
-        return;
-    }
-
-    try {
+    try{
 
         const res = await fetch(API + "/user/password", {
             method: "PUT",
@@ -87,23 +78,24 @@ async function updatePassword() {
         });
 
         const data = await res.json();
-        showMessage(data.message || "Password updated", "success");
+        alert(data.message || "Password Updated");
 
-    } catch (err) {
-        showMessage("Error updating password", "error");
+    }catch(err){
+        console.log("Password error:", err);
     }
 }
 
 
 // SAVE NOTIFICATIONS
-async function saveNotifications() {
+async function saveNotifications(){
 
     const data = {
         emailNotifications: document.getElementById("emailNotify").checked,
-        lowStockAlerts: document.getElementById("stockNotify").checked
+        pushNotifications: document.getElementById("pushNotify").checked,
+        lowStockAlerts: document.getElementById("stockAlert").checked
     };
 
-    try {
+    try{
 
         await fetch(API + "/user/settings", {
             method: "PUT",
@@ -114,28 +106,31 @@ async function saveNotifications() {
             body: JSON.stringify(data)
         });
 
-        showMessage("Preferences saved", "success");
+        alert("Preferences Saved");
 
-    } catch (err) {
-        showMessage("Error saving preferences", "error");
+    }catch(err){
+        console.log("Notification error:", err);
     }
 }
 
 
 // GENERAL SETTINGS
-async function saveGeneral() {
+async function saveGeneral(){
 
-    const darkMode = document.getElementById("darkMode").checked;
-    const language = document.getElementById("language").value;
+    const data = {
+        language: document.getElementById("language").value,
+        currency: document.getElementById("currency").value,
+        darkMode: document.getElementById("darkMode").checked
+    };
 
-    // UI update
-    if (darkMode) {
+    // UI change
+    if(data.darkMode){
         document.body.classList.add("dark");
     } else {
         document.body.classList.remove("dark");
     }
 
-    try {
+    try{
 
         await fetch(API + "/user/settings", {
             method: "PUT",
@@ -143,49 +138,22 @@ async function saveGeneral() {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token
             },
-            body: JSON.stringify({ darkMode, language })
+            body: JSON.stringify(data)
         });
 
-        showMessage("Settings saved", "success");
+        alert("Settings Saved");
 
-    } catch (err) {
-        showMessage("Error saving settings", "error");
+    }catch(err){
+        console.log("General settings error:", err);
     }
-}
-
-
-// LOGOUT
-function logout() {
-    localStorage.removeItem("token");
-    window.location.href = "index.html";
-}
-
-
-// MESSAGE UI
-function showMessage(msg, type) {
-
-    let old = document.getElementById("msg");
-    if (old) old.remove();
-
-    const div = document.createElement("div");
-    div.id = "msg";
-    div.innerText = msg;
-
-    div.style.padding = "10px";
-    div.style.marginTop = "10px";
-    div.style.textAlign = "center";
-
-    if (type === "success") {
-        div.style.background = "green";
-        div.style.color = "white";
-    } else {
-        div.style.background = "red";
-        div.style.color = "white";
-    }
-
-    document.querySelector(".main").prepend(div);
 }
 
 
 // INIT
 loadProfile();
+
+
+window.saveProfile = saveProfile;
+window.updatePassword = updatePassword;
+window.saveNotifications = saveNotifications;
+window.saveGeneral = saveGeneral;
