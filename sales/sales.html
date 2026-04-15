@@ -18,38 +18,30 @@
             <li class="active">Sales</li>
             <li>Purchases</li>
             <li>Users</li>
-            <br><br><br><br><br><br><br><br><br>
         </ul>
 
         <ul class="bottom-menu">
             <li>Settings</li>
-            <li>Logout</li>
+            <li onclick="logout()">Logout</li>
         </ul>
     </div>
 
     <!-- Main -->
     <div class="main">
 
-        <!-- Header -->
         <div class="header">
             <h1>Sales & Purchases</h1>
             <button onclick="openForm()">+ New Sale</button>
-        </div>
-
-        <!-- Tabs -->
-        <div class="tabs">
-            <button class="active">Sales</button>
-            <button>Purchases</button>
         </div>
 
         <!-- Table -->
         <table>
             <thead>
                 <tr>
-                    <th>supplier</th>
-                    <th>category</th>
-                    <th>purchase</th>
-                    
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="salesTable"></tbody>
@@ -71,8 +63,8 @@
             <option value="pending">Pending</option>
         </select>
 
-        <button type="button" onclick="addSale()">Save</button>
-        <button type="button" onclick="closeForm()">Cancel</button>
+        <button onclick="addSale()">Save</button>
+        <button onclick="closeForm()">Cancel</button>
     </div>
 </div>
 
