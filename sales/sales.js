@@ -1,32 +1,22 @@
-const API = "http://localhost:8080"; // change after deploy
+const API = "http://localhost:8080";
 const token = localStorage.getItem("token");
 
+alert("JS loaded");
+
 let sales = [];
-
-
-// LOGIN CHECK
-if (!token) {
-    alert("Login first");
-}
 
 
 // LOAD SALES
 async function loadSales() {
     try {
-
-        const res = await fetch(API + "/sales", {
-            headers: {
-                "Authorization": "Bearer " + token
-            }
-        });
-
+        const res = await fetch(API + "/sales");
         const data = await res.json();
-        sales = data.data || [];
 
+        sales = data.data || [];
         displaySales(sales);
 
     } catch (err) {
-        console.log(err);
+        console.log("Error:", err);
     }
 }
 
@@ -39,9 +29,11 @@ function displaySales(list) {
     list.forEach(item => {
         table.innerHTML += `
             <tr>
-                <td>${item.customer}</td>
-                <td class="${item.status}">${item.status}</td>
-                <td>₹${item.amount}</td>
+                <td>#INV-${item._id.slice(-4)}</td>
+                <td>${item.date ? new Date(item.date).toDateString() : "-"}</td>
+                <td>${item.product?.name || item.product}</td>
+                <td>${item.quantity}</td>
+                <td>₹${item.price}</td>
                 <td>
                     <button onclick="deleteSale('${item._id}')">Delete</button>
                 </td>
@@ -54,11 +46,11 @@ function displaySales(list) {
 // ADD SALE
 async function addSale() {
 
-    const customer = document.getElementById("customer").value;
-    const amount = document.getElementById("amount").value;
-    const status = document.getElementById("status").value;
+    const product = document.getElementById("product").value;
+    const quantity = document.getElementById("quantity").value;
+    const price = document.getElementById("price").value;
 
-    if (!customer || !amount) {
+    if (!product || !quantity || !price) {
         alert("Fill all fields");
         return;
     }
@@ -71,17 +63,16 @@ async function addSale() {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token
             },
-            body: JSON.stringify({ customer, amount, status })
+            body: JSON.stringify({ product, quantity, price })
         });
 
-        alert("Sale added ✅");
+        alert("Sale Added ✅");
 
         closeForm();
         loadSales();
 
     } catch (err) {
         console.log(err);
-        alert("Error adding sale");
     }
 }
 
@@ -89,7 +80,7 @@ async function addSale() {
 // DELETE SALE
 async function deleteSale(id) {
 
-    if (!confirm("Delete?")) return;
+    if (!confirm("Delete this sale?")) return;
 
     try {
 
@@ -120,14 +111,7 @@ function closeForm() {
 }
 
 
-// LOGOUT
-function logout() {
-    localStorage.removeItem("token");
-    window.location.href = "../index.html";
-}
-
-
-// 🔥 MAKE BUTTONS WORK (IMPORTANT)
+// 🔥 MAKE BUTTONS WORK
 window.openForm = openForm;
 window.closeForm = closeForm;
 window.addSale = addSale;
