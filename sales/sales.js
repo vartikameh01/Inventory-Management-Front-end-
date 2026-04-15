@@ -6,7 +6,7 @@ let sales = [];
 
 // LOGIN CHECK
 if (!token) {
-    alert("Please login first");
+    //alert("Please login first");
     window.location.href = "sales.html";
 }
 
