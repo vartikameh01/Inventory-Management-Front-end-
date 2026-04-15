@@ -1,28 +1,22 @@
-const API = "http://localhost:8080"; // change to deployed URL later
-const token = localStorage.getItem("token");
-
+const API = "http://localhost:8080";
+alert("JS Loaded");
 let products = [];
-
-// CHECK LOGIN
-if (!token) {
-    alert("Please login first");
-    window.location.href = "index.html";
-}
 
 
 // LOAD PRODUCTS
-function loadProducts() {
-    fetch(API + "/product", {
-        headers: {
-            "Authorization": "Bearer " + token
-        }
-    })
-    .then(res => res.json())
-    .then(data => {
+async function loadProducts() {
+    try {
+        const res = await fetch(API + "/getproduct");
+        const data = await res.json();
+
+        console.log("Products:", data);
+
         products = data.data || [];
         displayProducts(products);
-    })
-    .catch(err => console.log(err));
+
+    } catch (err) {
+        console.log("Error loading products:", err);
+    }
 }
 
 
@@ -35,11 +29,11 @@ function displayProducts(list) {
         table.innerHTML += `
             <tr>
                 <td>${p.name}</td>
-                <td>${p.category}</td>
-                <td>₹${p.price}</td>
+                <td>${p.category || "-"}</td>
+                <td>₹${p.price || 0}</td>
                 <td>${p.quantity}</td>
-                <td>${p.supplier}</td>
-                <td>${p.description}</td>
+                <td>${p.supplier || "-"}</td>
+                <td>${p.description || "-"}</td>
                 <td>
                     <button onclick="deleteProduct('${p._id}')">Delete</button>
                 </td>
@@ -50,64 +44,75 @@ function displayProducts(list) {
 
 
 // ADD PRODUCT
-function addProduct() {
-
-    const name = document.getElementById("name").value;
-
-    if (!name) {
-        alert("Product name is required");
-        return;
-    }
+async function addProduct() {
+    alert("clicked")
 
     const data = {
-        name,
+        name: document.getElementById("name").value,
         category: document.getElementById("category").value,
-        price: Number(document.getElementById("price").value),
-        quantity: Number(document.getElementById("quantity").value),
+        price: document.getElementById("price").value,
+        quantity: document.getElementById("quantity").value,
         supplier: document.getElementById("supplier").value,
         description: document.getElementById("description").value
     };
 
-    fetch(API + "/product", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
-        },
-        body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(() => {
+    if (!data.name) {
+        alert("Product name is required");
+        return;
+    }
+
+    try {
+
+        const res = await fetch(API + "/product", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token") 
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        console.log("Added:", result);
+
         closeForm();
         loadProducts();
-    })
-    .catch(err => console.log(err));
+
+    } catch (err) {
+        console.log("Error adding product:", err);
+    }
 }
 
 
 // DELETE PRODUCT
-function deleteProduct(id) {
+async function deleteProduct(id) {
 
     if (!confirm("Delete this product?")) return;
 
-    fetch(API + "/product/" + id, {
-        method: "DELETE",
-        headers: {
-            "Authorization": "Bearer " + token
-        }
-    })
-    .then(() => loadProducts())
-    .catch(err => console.log(err));
+    try {
+
+        await fetch(API + "/product/" + id, {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        });
+
+        loadProducts();
+
+    } catch (err) {
+        console.log("Delete error:", err);
+    }
 }
 
 
 // SEARCH
-function searchProduct() {
+async function  searchProduct() {
     const value = document.getElementById("search").value.toLowerCase();
 
-    const filtered = products.filter(p =>
+    const filtered = await products.filter(p =>
         p.name.toLowerCase().includes(value) ||
-        p.category.toLowerCase().includes(value)
+        (p.category || "").toLowerCase().includes(value)
     );
 
     displayProducts(filtered);
@@ -121,13 +126,6 @@ function openForm() {
 
 function closeForm() {
     document.getElementById("modal").style.display = "none";
-}
-
-
-// LOGOUT
-function logout() {
-    localStorage.removeItem("token");
-    window.location.href = "index.html";
 }
 
 
