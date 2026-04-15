@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Settings</title>
 
-<link rel="stylesheet" href="./setting.css">
+<link rel="stylesheet" href="setting.css">
 </head>
 
 <body>
@@ -22,11 +22,12 @@
         <li>Sales</li>
         <li>Purchases</li>
         <li>Users</li>
+        
     </ul>
 
     <ul class="bottom-menu">
         <li class="active">Settings</li>
-        <li onclick="logout()">Logout</li>
+        <li>Logout</li>
     </ul>
 </div>
 
@@ -55,7 +56,6 @@
 
         <input type="password" id="current" placeholder="Current Password">
         <input type="password" id="newPass" placeholder="New Password">
-        <input type="password" id="confirmPass" placeholder="Confirm Password">
 
         <button onclick="updatePassword()">Update Password</button>
     </div>
@@ -66,12 +66,18 @@
 
         <div class="row">
             <span>Email Notifications</span>
-            <input type="checkbox" id="emailNotify">
+            <label class="switch">
+                <input type="checkbox" id="emailNotify">
+                <span class="slider"></span>
+            </label>
         </div>
 
         <div class="row">
             <span>Low Stock Alerts</span>
-            <input type="checkbox" id="stockNotify">
+            <label class="switch">
+                <input type="checkbox" id="stockNotify">
+                <span class="slider"></span>
+            </label>
         </div>
 
         <button onclick="saveNotifications()">Save Preferences</button>
@@ -88,7 +94,10 @@
 
         <div class="row">
             <span>Dark Mode</span>
-            <input type="checkbox" id="darkMode">
+            <label class="switch">
+                <input type="checkbox" id="darkMode">
+                <span class="slider"></span>
+            </label>
         </div>
 
         <button onclick="saveGeneral()">Save Settings</button>
@@ -98,7 +107,7 @@
 
 </div>
 
-<script src="./setting.js"></script>
+<script src="setting.js"></script>
 
 </body>
 </html>
