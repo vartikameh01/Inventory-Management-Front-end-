@@ -66,7 +66,7 @@ async function addSale() {
             body: JSON.stringify({ product, quantity, price })
         });
 
-        alert("Sale Added ✅");
+        alert("Sale Added");
 
         closeForm();
         loadSales();
@@ -91,7 +91,7 @@ async function deleteSale(id) {
             }
         });
 
-        alert("Deleted ✅");
+        alert("Deleted ");
 
         loadSales();
 
