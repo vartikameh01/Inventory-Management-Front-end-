@@ -1,6 +1,6 @@
 alert("Connected")
 
-const API = "http://localhost:8080";
+const API = "https://inventory-management-2-t0u8.onrender.com/";
 let users = [];
 
 // LOAD USERS
