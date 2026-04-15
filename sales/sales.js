@@ -4,10 +4,10 @@ const token = localStorage.getItem("token");
 let sales = [];
 
 
-// 🔐 LOGIN CHECK
+// LOGIN CHECK
 if (!token) {
     alert("Please login first");
-    window.location.href = "index.html";
+    window.location.href = "sales.html";
 }
 
 
