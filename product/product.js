@@ -6,6 +6,10 @@ let products = [];
 async function loadProducts() {
     try {
         const res = await fetch(API + "/getproduct");
+        if (!res.ok) {
+            alert("Failed to load products");
+            return;
+        }
         const data = await res.json();
 
         console.log("Products:", data);
@@ -15,6 +19,7 @@ async function loadProducts() {
 
     } catch (err) {
         console.log("Error loading products:", err);
+        alert("Server error while loading products");
     }
 }
 
@@ -95,17 +100,25 @@ async function deleteProduct(id) {
 
     try {
 
-        await fetch(API + "/product/" + id, {
+        const res = await fetch(API + "/product/" + id, {
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
             }
         });
 
+        if (!res.ok) {
+            const result = await res.json();
+            alert(result.message || "Failed to delete product");
+            return;
+        }
+
+        alert("Product Deleted");
         loadProducts();
 
     } catch (err) {
         console.log("Delete error:", err);
+        alert("Server error while deleting product");
     }
 }
 

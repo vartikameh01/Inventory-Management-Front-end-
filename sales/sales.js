@@ -8,6 +8,10 @@ let sales = [];
 async function loadSales() {
     try {
         const res = await fetch(API + "/sales");
+        if (!res.ok) {
+            alert("Failed to load sales");
+            return;
+        }
         const data = await res.json();
 
         sales = data.data || [];
@@ -15,6 +19,7 @@ async function loadSales() {
 
     } catch (err) {
         console.log("Error:", err);
+        alert("Server error while loading sales");
     }
 }
 
@@ -55,7 +60,7 @@ async function addSale() {
 
     try {
 
-        await fetch(API + "/sale", {
+        const res = await fetch(API + "/sale", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -64,6 +69,13 @@ async function addSale() {
             body: JSON.stringify({ product, quantity, price })
         });
 
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert(data.message || "Failed to add sale");
+            return;
+        }
+
         alert("Sale Added");
 
         closeForm();
@@ -71,6 +83,7 @@ async function addSale() {
 
     } catch (err) {
         console.log(err);
+        alert("Server error while adding sale");
     }
 }
 
@@ -82,19 +95,26 @@ async function deleteSale(id) {
 
     try {
 
-        await fetch(API + "/sales/" + id, {
+        const res = await fetch(API + "/sales/" + id, {
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + token
             }
         });
 
-        alert("Deleted ");
+        if (!res.ok) {
+            const data = await res.json();
+            alert(data.message || "Failed to delete sale");
+            return;
+        }
+
+        alert("Sale Deleted");
 
         loadSales();
 
     } catch (err) {
         console.log(err);
+        alert("Server error while deleting sale");
     }
 }
 

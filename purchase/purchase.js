@@ -7,6 +7,10 @@ let purchases = [];
 async function loadPurchases() {
     try {
         const res = await fetch(API + "/purchase");
+        if (!res.ok) {
+            alert("Failed to load purchases");
+            return;
+        }
         const data = await res.json();
 
         console.log("Purchases:", data);
@@ -16,6 +20,7 @@ async function loadPurchases() {
 
     } catch (err) {
         console.log("Error loading purchases:", err);
+        alert("Server error while loading purchases");
     }
 }
 
@@ -60,7 +65,7 @@ async function addPurchase() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + localStorage.getItem("token") 
+                "Authorization": "Bearer " + localStorage.getItem("token")
             },
              body: JSON.stringify(data)
         });
@@ -68,10 +73,17 @@ async function addPurchase() {
         const result = await res.json();
         console.log("Added purchase:", result);
 
+        if (!res.ok) {
+            alert(result.message || "Failed to add purchase");
+            return;
+        }
+
+        alert("Purchase Added");
         closeForm();
-        await loadPurchases();  
+        await loadPurchases();
     } catch (err) {
         console.log("Error adding purchase:", err);
+        alert("Server error while adding purchase");
     }
 }
 
@@ -83,17 +95,25 @@ async function deletePurchase(id) {
 
     try {
 
-        await fetch(API + "/purchase/" + id, {
+        const res = await fetch(API + "/purchase/" + id, {
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
             }
         });
 
+        if (!res.ok) {
+            const result = await res.json();
+            alert(result.message || "Failed to delete purchase");
+            return;
+        }
+
+        alert("Purchase Deleted");
         await loadPurchases();
 
     } catch (err) {
         console.log("Delete error:", err);
+        alert("Server error while deleting purchase");
     }
 }
 

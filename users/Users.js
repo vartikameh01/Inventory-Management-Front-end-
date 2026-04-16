@@ -3,14 +3,20 @@ let users = [];
 
 // LOAD USERS
 async function loadUsers() {
-    await fetch(API + "/register")
-    .then(res => res.json())
-    .then(data => {
+    try {
+        const res = await fetch(API + "/register");
+        if (!res.ok) {
+            alert("Failed to load users");
+            return;
+        }
+        const data = await res.json();
         console.log(data);
         users = data.data || [];
         displayUsers(users);
-    })
-    .catch(err => console.log("Error loading users:", err));
+    } catch (err) {
+        console.log("Error loading users:", err);
+        alert("Server error while loading users");
+    }
 }
 
 // DISPLAY USERS
@@ -55,19 +61,29 @@ async function addUser() {
 
     const data = { name, email, password };
 
-   await fetch(API + "/register", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(() => {
+    try {
+        const res = await fetch(API + "/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+
+        if (!res.ok) {
+            alert(result.message || "Failed to add user");
+            return;
+        }
+
+        alert("User Added");
         closeForm();
         loadUsers();
-    })
-    .catch(err => console.log("Error adding user:", err));
+    } catch (err) {
+        console.log("Error adding user:", err);
+        alert("Server error while adding user");
+    }
 }
 
 // DELETE USER

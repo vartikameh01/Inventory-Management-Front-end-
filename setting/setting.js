@@ -12,6 +12,12 @@ async function loadProfile(){
             }
         });
 
+        if (!res.ok) {
+            const errData = await res.json();
+            alert(errData.message || "Failed to load profile");
+            return;
+        }
+
         const data = await res.json();
         const user = data.data;
 
@@ -21,6 +27,7 @@ async function loadProfile(){
 
     }catch(err){
         console.log("Load profile error:", err);
+        alert("Server error while loading profile");
     }
 }
 
@@ -45,11 +52,18 @@ async function saveProfile(){
             body: JSON.stringify(data)
         });
 
-        await res.json();
+        const result = await res.json();
+
+        if (!res.ok) {
+            alert(result.message || "Failed to update profile");
+            return;
+        }
+
         alert("Profile Updated");
 
     }catch(err){
         console.log("Save profile error:", err);
+        alert("Server error while saving profile");
     }
 }
 
@@ -78,10 +92,17 @@ async function updatePassword(){
         });
 
         const data = await res.json();
+
+        if (!res.ok) {
+            alert(data.message || "Failed to update password");
+            return;
+        }
+
         alert(data.message || "Password Updated");
 
     }catch(err){
         console.log("Password error:", err);
+        alert("Server error while updating password");
     }
 }
 
@@ -97,7 +118,7 @@ async function saveNotifications(){
 
     try{
 
-        await fetch(API + "/user/settings", {
+        const res = await fetch(API + "/user/settings", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -106,10 +127,17 @@ async function saveNotifications(){
             body: JSON.stringify(data)
         });
 
+        if (!res.ok) {
+            const result = await res.json();
+            alert(result.message || "Failed to save preferences");
+            return;
+        }
+
         alert("Preferences Saved");
 
     }catch(err){
         console.log("Notification error:", err);
+        alert("Server error while saving preferences");
     }
 }
 
@@ -132,7 +160,7 @@ async function saveGeneral(){
 
     try{
 
-        await fetch(API + "/user/settings", {
+        const res = await fetch(API + "/user/settings", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -141,10 +169,17 @@ async function saveGeneral(){
             body: JSON.stringify(data)
         });
 
+        if (!res.ok) {
+            const result = await res.json();
+            alert(result.message || "Failed to save settings");
+            return;
+        }
+
         alert("Settings Saved");
 
     }catch(err){
         console.log("General settings error:", err);
+        alert("Server error while saving settings");
     }
 }
 
