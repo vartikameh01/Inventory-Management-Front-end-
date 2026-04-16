@@ -1,4 +1,4 @@
-const API = "https://inventory-management-2-t0u8.onrender.com/";
+const API = "https://inventory-management-2-t0u8.onrender.com";
 let purchases = [];
 
 

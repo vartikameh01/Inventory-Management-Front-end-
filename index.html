@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard</title>
 
-<link rel="stylesheet" href="./dashboard.css">
+<link rel="stylesheet" href="./dashboard/dashboard.css">
 </head>
 <body>
 
@@ -17,15 +17,15 @@
 
     <ul>
         <li class="active">Dashboard</li>
-        <li>Products</li>
-        <li>Sales</li>
-        <li>Purchases</li>
-        <li>Users</li>
+        <li onclick="location.href='/product/product.html'">Products</li>
+        <li onclick="location.href='/sales/sales.html'">Sales</li>
+        <li onclick="location.href='/purchase/purchase.html'">Purchases</li>
+        <li onclick="location.href='/users/Users.html'">Users</li>
     </ul>
 
     <ul class="bottom-menu">
-        <li>Settings</li>
-        <li>Logout</li>
+        <li onclick="location.href='/setting/setting.html'">Settings</li>
+        <li onclick="location.href='/logging/logging.html'">Logout</li>
     </ul>
 </div>
 

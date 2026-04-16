@@ -1,5 +1,4 @@
-const API = "https://inventory-management-2-t0u8.onrender.com/";
-alert("JS Loaded");
+const API = "https://inventory-management-2-t0u8.onrender.com";
 let products = [];
 
 
@@ -45,8 +44,6 @@ function displayProducts(list) {
 
 // ADD PRODUCT
 async function addProduct() {
-    alert("clicked");
-
     const data = {
         name: document.getElementById("name").value,
         category: document.getElementById("category").value,
@@ -117,7 +114,7 @@ async function deleteProduct(id) {
 async function  searchProduct() {
     const value = document.getElementById("search").value.toLowerCase();
 
-    const filtered = await products.filter(p =>
+    const filtered = products.filter(p =>
         p.name.toLowerCase().includes(value) ||
         (p.category || "").toLowerCase().includes(value)
     );

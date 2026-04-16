@@ -1,4 +1,4 @@
-const API = "https://inventory-management-2-t0u8.onrender.com/";
+const API = "https://inventory-management-2-t0u8.onrender.com";
 
 
 async function loginUser() {
@@ -32,7 +32,7 @@ async function loginUser() {
             alert("Login successful");
 
             // Redirect
-            window.location.href = "dashboard.html";
+            window.location.href = "../dashboard/dashboard.html";
 
         } else {
             alert(data.message || "Invalid credentials");

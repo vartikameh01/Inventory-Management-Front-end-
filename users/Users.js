@@ -1,6 +1,4 @@
-alert("Connected")
-
-const API = "https://inventory-management-2-t0u8.onrender.com/";
+const API = "https://inventory-management-2-t0u8.onrender.com";
 let users = [];
 
 // LOAD USERS
@@ -77,7 +75,10 @@ function deleteUser(id) {
     if (!confirm("Delete this user?")) return;
 
     fetch(API + "/users/" + id, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
     })
     .then(() => loadUsers())
     .catch(err => console.log("Delete error:", err));
