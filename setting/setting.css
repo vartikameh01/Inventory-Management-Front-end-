@@ -157,9 +157,3 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(18px);
 }
-
-/* Dark Mode */
-.dark {
-    background: #111 !important;
-    color: white;
-}

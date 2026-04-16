@@ -147,16 +147,8 @@ async function saveGeneral(){
 
     const data = {
         language: document.getElementById("language").value,
-        currency: document.getElementById("currency").value,
-        darkMode: document.getElementById("darkMode").checked
+        currency: document.getElementById("currency").value
     };
-
-    // UI change
-    if(data.darkMode){
-        document.body.classList.add("dark");
-    } else {
-        document.body.classList.remove("dark");
-    }
 
     try{
 
