@@ -22,7 +22,7 @@
 
         <ul class="bottom-menu">
             <li onclick="location.href='/setting/setting.html'">Settings</li>
-            <li onclick="location.href='/logging/logging.html'">Logout</li>
+            <li onclick="logoutUser()">Logout</li>
         </ul>
     </div>
 
@@ -65,6 +65,19 @@
         <button onclick="closeForm()">Cancel</button>
     </div>
 </div>
+<script>
+// auth check
+if(!localStorage.getItem("token")){
+    location.href = "/logging/logging.html";
+}
+function logoutUser(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userEmail");
+    location.href = "/logging/logging.html";
+}
+</script>
 <script src="./sales.js"></script>
 </body>
 </html>

@@ -25,7 +25,7 @@
 
         <ul class="bottom-menu">
             <li class="active">Settings</li>
-            <li onclick="location.href='/logging/logging.html'">Logout</li>
+            <li onclick="logoutUser()">Logout</li>
         </ul>
     </div>
 <!-- Topbar -->
@@ -38,10 +38,10 @@
 <i class="fa-regular fa-bell"></i>
 
 <div class="profile">
-<div class="avatar">JD</div>
+<div class="avatar" id="avatarInitials">JD</div>
 <div class="profile-info">
-<span>John Doe</span>
-<span>Admin</span>
+<span id="topbarName">John Doe</span>
+<span id="topbarRole">Admin</span>
 </div>
 </div>
 
@@ -139,6 +139,39 @@
 
 </div>
 
+<script>
+// auth check
+if(!localStorage.getItem("token")){
+    location.href = "/logging/logging.html";
+}
+
+// fill in user info from localStorage
+var uname = localStorage.getItem("userName");
+var urole = localStorage.getItem("userRole");
+var uemail = localStorage.getItem("userEmail");
+if(uname){
+    document.getElementById("topbarName").textContent = uname;
+    document.getElementById("name").value = uname;
+    // make initials from name
+    var parts = uname.split(" ");
+    var initials = parts[0][0] + (parts[1] ? parts[1][0] : "");
+    document.getElementById("avatarInitials").textContent = initials.toUpperCase();
+}
+if(urole){
+    document.getElementById("topbarRole").textContent = urole.charAt(0).toUpperCase() + urole.slice(1);
+}
+if(uemail){
+    document.getElementById("email").value = uemail;
+}
+
+function logoutUser(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userEmail");
+    location.href = "/logging/logging.html";
+}
+</script>
 <script src="./setting.js"></script>
 </body>
 </html>

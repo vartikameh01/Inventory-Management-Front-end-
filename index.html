@@ -25,7 +25,7 @@
 
     <ul class="bottom-menu">
         <li onclick="location.href='/setting/setting.html'">Settings</li>
-        <li onclick="location.href='/logging/logging.html'">Logout</li>
+        <li onclick="logoutUser()">Logout</li>
     </ul>
 </div>
 
@@ -37,7 +37,7 @@
         <h1>Dashboard</h1>
     </div>
 
-    <p>Welcome back, John </p>
+    <p>Welcome back, <span id="welcomeName">User</span> </p>
 
     <!-- Cards -->
     <div class="cards">
@@ -96,5 +96,26 @@
 </div>
 
 </div>
+
+<script>
+// auth check
+if(!localStorage.getItem("token")){
+    location.href = "/logging/logging.html";
+}
+
+// show user name
+var uname = localStorage.getItem("userName");
+if(uname){
+    document.getElementById("welcomeName").textContent = uname;
+}
+
+function logoutUser(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userEmail");
+    location.href = "/logging/logging.html";
+}
+</script>
 </body>
 </html>
