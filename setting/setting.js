@@ -1,5 +1,8 @@
 const API = "https://inventory-management-2-t0u8.onrender.com";
-const token = localStorage.getItem("token");
+console.log("TOKEN:", localStorage.getItem("token"));
+function getToken(){
+    return localStorage.getItem("token");
+}
 
 
 // LOAD PROFILE DATA
@@ -8,7 +11,7 @@ async function loadProfile(){
 
         const res = await fetch(API + "/user/profile", {
             headers: {
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + getToken()
             }
         });
 
@@ -47,7 +50,7 @@ async function saveProfile(){
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + getToken()
             },
             body: JSON.stringify(data)
         });
@@ -86,7 +89,7 @@ async function updatePassword(){
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + getToken()
             },
             body: JSON.stringify({ currentPassword, newPassword })
         });
@@ -122,7 +125,7 @@ async function saveNotifications(){
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + getToken()
             },
             body: JSON.stringify(data)
         });
@@ -156,7 +159,7 @@ async function saveGeneral(){
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + getToken()
             },
             body: JSON.stringify(data)
         });
