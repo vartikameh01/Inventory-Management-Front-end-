@@ -1,123 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
-
-<link rel="stylesheet" href="./dashboard.css">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
-    
-
 <body>
 
 <div class="container">
 
-<!-- Sidebar -->
-<div class="sidebar">
-    <h2>InvenTrack</h2>
-
-   <ul>
-    <li class="active">Dashboard</li>
-    <li onclick="location.href='/product/product.html'">Products</li>
-    <li onclick="location.href='/sales/sales.html'">Sales</li>
-    <li onclick="location.href='/purchase/purchase.html'">Purchases</li>
-    <li onclick="location.href='/users/Users.html'">Users</li>
-</ul>
-
-        <ul class="bottom-menu">
-            <li  onclick="location.href='/setting/setting.html'">Settings</li>
-            <li onclick="logoutUser()">Logout</li>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>InvenTrack</h2>
+        <ul>
+            <li class="active">Dashboard</li>
+            <li>Products</li>
+            <li>Sales</li>
+            <li>Purchases</li>
+            <li>Users</li>
+            <li>Settings</li>
+            <li onclick="logout()">Logout</li>
         </ul>
-</div>
+    </div>
 
-<!-- Main -->
-<div class="main">
-
-    <!-- Header -->
-    <div class="header">
+    <!-- Main -->
+    <div class="main">
         <h1>Dashboard</h1>
-    </div>
+        <p id="welcome">Welcome back, User</p>
 
-    <p>Welcome back, <span id="welcomeName">User</span> </p>
+        <!-- Cards -->
+        <div class="cards">
 
-    <!-- Cards -->
-    <div class="cards">
+            <div class="card">
+                <h3>Total Products</h3>
+                <h2 id="products">0</h2>
+                <p class="growth positive">+12% growth</p>
+            </div>
 
-        <div class="card">
-            <h4>Total Products</h4>
-            <h2>1,234</h2>
-            <p class="green">+12% growth</p>
-        </div>
+            <div class="card">
+                <h3>Total Sales</h3>
+                <h2 id="sales">0</h2>
+                <p class="growth positive">+8% growth</p>
+            </div>
 
-        <div class="card">
-            <h4>Total Sales</h4>
-            <h2>$45,200</h2>
-            <p class="green">+8% growth</p>
-        </div>
+            <div class="card">
+                <h3>Low Stock</h3>
+                <h2 id="stock">0</h2>
+                <p class="growth negative">-3% drop</p>
+            </div>
 
-        <div class="card">
-            <h4>Low Stock</h4>
-            <h2>15</h2>
-            <p class="red">-3% drop</p>
-        </div>
+            <div class="card">
+                <h3>Revenue</h3>
+                <h2 id="revenue">0</h2>
+                <p class="growth positive">+23% growth</p>
+            </div>
 
-        <div class="card">
-            <h4>Revenue</h4>
-            <h2>$128,500</h2>
-            <p class="green">+23% growth</p>
-        </div>
-
-    </div>
-
-    <!-- Images Section -->
-    <div class="images">
-
-        <div class="img-box">
-            <h3>Sales Overview</h3>
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71">
-        </div>
-
-        <div class="img-box">
-            <h3>Revenue Insights</h3>
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f">
         </div>
 
     </div>
-
-    <!-- Activity -->
-    <div class="activity">
-        <h3>Recent Activity</h3>
-
-        <p> New order #1234 - $456</p>
-        <p> Low stock alert - Product A</p>
-        <p> New product added</p>
-        <p> Sale completed - Invoice #5678</p>
-    </div>
-
 </div>
 
-</div>
-
-<script>
-// auth check
-if(!localStorage.getItem("token")){
-    location.href = "/logging/logging.html";
-}
-
-// show user name
-var uname = localStorage.getItem("userName");
-if(uname){
-    document.getElementById("welcomeName").textContent = uname;
-}
-
-function logoutUser(){
-    localStorage.removeItem("token");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userRole");
-    localStorage.removeItem("userEmail");
-    location.href = "/logging/logging.html";
-}
-</script>
+<script src="../js/dashboard.js"></script>
 </body>
 </html>
