@@ -131,9 +131,27 @@ function searchPurchase() {
 }
 
 
+// LOAD PRODUCT OPTIONS
+async function loadProductOptions() {
+    try {
+        const res = await fetch(API + "/getproduct");
+        if (!res.ok) return;
+        const data = await res.json();
+        const select = document.getElementById("product");
+        select.innerHTML = '<option value="">Select Product</option>';
+        (data.data || []).forEach(p => {
+            select.innerHTML += `<option value="${p._id}">${p.name}</option>`;
+        });
+    } catch (err) {
+        console.log("Error loading product options:", err);
+    }
+}
+
+
 // MODAL
 function openForm() {
     document.getElementById("modal").style.display = "block";
+    loadProductOptions();
 }
 
 function closeForm() {
