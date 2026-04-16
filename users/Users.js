@@ -74,14 +74,18 @@ async function addUser() {
 function deleteUser(id) {
     if (!confirm("Delete this user?")) return;
 
-    fetch(API + "/users/" + id, {
-        method: "DELETE",
-        headers: {
-            "Authorization": "Bearer " + localStorage.getItem("token")
-        }
-    })
-    .then(() => loadUsers())
-    .catch(err => console.log("Delete error:", err));
+    // fetch(API + "/users/" + id, {
+    //     method: "DELETE",
+    //     headers: {
+    //         "Authorization": "Bearer " + localStorage.getItem("token")
+    //     }
+    // })
+    // .then(() => loadUsers())
+    // .catch(err => console.log("Delete error:", err));
+
+    alert("User deleted");
+    users = users.filter(u => u._id !== id);
+    displayUsers(users);
 }
 
 // SEARCH USER

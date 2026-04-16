@@ -55,7 +55,7 @@ async function addSale() {
 
     try {
 
-        await fetch(API + "/sales", {
+        await fetch(API + "/sale", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
