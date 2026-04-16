@@ -1,3 +1,4 @@
+const API = "https://inventory-management-2-t0u8.onrender.com";
 async function loginUser() {
 
     const email = document.getElementById("email").value.trim();
