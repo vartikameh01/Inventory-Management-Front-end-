@@ -6,7 +6,7 @@ async function loadUsers() {
     try {
         const res = await fetch(API + "/register");
         if (!res.ok) {
-            alert("Failed to load users");
+            //alert("Failed to load users");
             return;
         }
         const data = await res.json();
