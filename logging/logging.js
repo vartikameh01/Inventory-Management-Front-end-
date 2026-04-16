@@ -1,10 +1,3 @@
-const API = "https://inventory-management-2-t0u8.onrender.com";
-
-// if already logged in go to dashboard
-if(localStorage.getItem("token")){
-    window.location.href = "../dashboard/dashboard.html";
-}
-
 async function loginUser() {
 
     const email = document.getElementById("email").value.trim();
@@ -27,24 +20,21 @@ async function loginUser() {
 
         const data = await res.json();
 
+        console.log("FULL RESPONSE:", data);
 
         if (data.data && data.data.token) {
 
-            // Save token and user info
             localStorage.setItem("token", data.data.token);
-            if(data.data.user){
-                localStorage.setItem("userName", data.data.user.name || "User");
-                localStorage.setItem("userRole", data.data.user.role || "staff");
-                localStorage.setItem("userEmail", data.data.user.email || "");
-            }
+
+            localStorage.setItem("userName", data.data.name || "User");
+            localStorage.setItem("userRole", data.data.role || "staff");
 
             alert("Login successful");
 
-            // Redirect
             window.location.href = "../dashboard/dashboard.html";
 
         } else {
-            alert(data.message || "Invalid credentials");
+            alert(data.message || "Login failed");
         }
 
     } catch (err) {
